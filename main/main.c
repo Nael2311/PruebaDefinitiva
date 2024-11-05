@@ -25,7 +25,7 @@ static const u1_t APPKEY[16] = {0x52, 0x8E, 0xD3, 0x67, 0x01, 0xC1, 0x23, 0xC3, 
 
 //static const char *TAG = "LoRa-Example";
 
-static uint8_t mydata[] = "Hello, world!";
+static uint8_t mydata[64];
 static osjob_t sendjob;
 
 // SPG30
@@ -87,18 +87,17 @@ const lmic_pinmap lmic_pins = {
 
 void do_send(osjob_t *j)
 {
-    // Verifica si hay una transmisión o recepción en curso
     if (LMIC.opmode & OP_TXRXPEND)
     {
         ESP_LOGI("LoRa", "OP_TXRXPEND, not sending");
     }
     else
     {
-        // Prepara la transmisión de datos
-        LMIC_setTxData2(1, mydata, sizeof(mydata) - 1, 0);
-        ESP_LOGI("LoRa", "Packet queued");
+        // Envía los datos formateados en `mydata`
+        LMIC_setTxData2(1, (uint8_t *)mydata, strlen((char *)mydata), 1); //Si se establece a 1, la transmisión será confirmada (el servidor enviará un acuse de recibo). 
+                                                                          //Si se establece a 0, la transmisión es sin confirmación.
+        ESP_LOGI("LoRa", "Packet queued with data: %s", mydata);
     }
-    // La próxima transmisión se programará tras el evento TX_COMPLETE
 }
 
 void onEvent(ev_t ev)
@@ -347,6 +346,9 @@ void dht20_read_task(void *param)
         {
             ESP_LOGI(tag, "is NOT calibrated....");
         }
+        
+        ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
+        ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
 
         (void)dht20_read_data(&measurements);
         ESP_LOGI(tag, "Temperature:\t%.1fC.\t Avg: %.1fC", measurements.temperature, measurements.temp_avg);
@@ -368,20 +370,24 @@ void dht20_read_task(void *param)
         xTaskCreate(task_ssd1306_display_text, "ssd1306_display_text", 2048, (void *)humid_str, 6, NULL);
         vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de seguir
 
-        ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
-        ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
-
         ESP_LOGI(TAGSPG30, "CO2eq: %d ppm, TVOC: %d ppb", co2_eq, tvoc);
 
         snprintf(co2_str, sizeof(co2_str), "CO2eq: %d ppm", co2_eq);
         snprintf(tvoc_str, sizeof(tvoc_str), "TVOC: %d ppb", tvoc);
 
-        // Mostrar CO2eq en la primera página
+        // Mostrar CO2eq en la tercera página
         xTaskCreate(task_ssd1306_display_text, "display_co2", 2048, (void *)co2_str, 5, NULL);
         vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de escribir la siguiente línea
 
-        // Mostrar TVOC en la segunda página
+        // Mostrar TVOC en la cuarta página
         xTaskCreate(task_ssd1306_display_text, "display_tvoc", 2048, (void *)tvoc_str, 5, NULL);
+
+        // Preparar el payload para enviar datos por loRaWAN
+        snprintf((char *)mydata, sizeof(mydata), "T:%.1f H:%.1f CO2:%d TVOC:%d", 
+                 measurements.temperature, measurements.humidity, co2_eq, tvoc);
+
+        // Llamar a la función `do_send` para transmitir
+        do_send(&sendjob); //Transmisión OTAA
 
         vTaskDelay(pdMS_TO_TICKS(2000)); // Esperar 2 segundos antes de la próxima lectura
     }
@@ -507,7 +513,6 @@ void app_main(void)
 
     // Crear tareas para lectura de sensores y transmisión LoRa
     xTaskCreate(dht20_read_task, "read_values", 256 * 11, NULL, 3, &read_data_h); 
-    do_send(&sendjob); // Primera transmisión OTAA
     xTaskCreate(&lmic_task, "lmic_task", 2048, NULL, 5, NULL); // Tarea LMIC
 
     ESP_LOGI("LoRa", "Tareas inicializadas");
