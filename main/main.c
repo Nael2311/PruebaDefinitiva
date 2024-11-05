@@ -30,7 +30,7 @@ static osjob_t sendjob;
 
 // SPG30
 #define SGP30_ADDR 0x58  // Dirección I2C del SGP30
-#define OLED_I2C_ADDRESS 0x3C
+#define OLED_I2C_ADDRESS 0x3C // Direccion I2C del ssd1306
 #define ACK_CHECK_EN 0x1 // Habilitar ACK
 static const char *TAGSPG30 = "SGP30";
 esp_err_t sgp30_write_command(uint16_t command);
