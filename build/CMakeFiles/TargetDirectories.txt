@@ -831,13 +831,6 @@ C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/dht20/
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/dht20/CMakeFiles/install.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/dht20/CMakeFiles/install/local.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/dht20/CMakeFiles/install/strip.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/__idf_lmic-esp-idf.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/edit_cache.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/rebuild_cache.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/list_install_components.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/install.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/install/local.dir
-C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/lmic-esp-idf/CMakeFiles/install/strip.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/__idf_ssd1306.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/edit_cache.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/rebuild_cache.dir
@@ -845,3 +838,10 @@ C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd130
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/install.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/install/local.dir
 C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ssd1306/CMakeFiles/install/strip.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/__idf_ttn-esp32.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/edit_cache.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/rebuild_cache.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/list_install_components.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/install.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/install/local.dir
+C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/ttn-esp32/CMakeFiles/install/strip.dir

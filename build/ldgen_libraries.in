@@ -82,5 +82,5 @@ $<TARGET_FILE:__idf_wifi_provisioning>
 $<TARGET_FILE:__idf_main>
 $<TARGET_FILE:__idf_toolbox>
 $<TARGET_FILE:__idf_dht20>
-$<TARGET_FILE:__idf_lmic-esp-idf>
 $<TARGET_FILE:__idf_ssd1306>
+$<TARGET_FILE:__idf_ttn-esp32>

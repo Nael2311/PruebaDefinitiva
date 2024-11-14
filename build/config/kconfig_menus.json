@@ -28284,152 +28284,6 @@
                     {
                         "children": [
                             {
-                                "children": [],
-                                "depends_on": "<choice LMIC_DEFAULT_FREQ_BAND>",
-                                "help": null,
-                                "id": "LMIC_FREQ_USE_EU_868",
-                                "name": "LMIC_FREQ_USE_EU_868",
-                                "range": null,
-                                "title": "868 MHz EU",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice LMIC_DEFAULT_FREQ_BAND>",
-                                "help": null,
-                                "id": "LMIC_FREQ_USE_US_915",
-                                "name": "LMIC_FREQ_USE_US_915",
-                                "range": null,
-                                "title": "915 MHz US",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "component-config-lmic-default-frequency-band",
-                        "name": "LMIC_DEFAULT_FREQ_BAND",
-                        "title": "Default frequency band",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice LMIC_SX_CHIP>",
-                                "help": null,
-                                "id": "LMIC_USE_SX1276",
-                                "name": "LMIC_USE_SX1276",
-                                "range": null,
-                                "title": "SX1276",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice LMIC_SX_CHIP>",
-                                "help": null,
-                                "id": "LMIC_USE_SX1272",
-                                "name": "LMIC_USE_SX1272",
-                                "range": null,
-                                "title": "SX1272",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "component-config-lmic-lora-chip",
-                        "name": "LMIC_SX_CHIP",
-                        "title": "LoRa chip",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": "<choice LMIC_SPI>",
-                                "help": null,
-                                "id": "LMIC_SPI_HSPI",
-                                "name": "LMIC_SPI_HSPI",
-                                "range": null,
-                                "title": "HSPI",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "<choice LMIC_SPI>",
-                                "help": null,
-                                "id": "LMIC_SPI_VSPI",
-                                "name": "LMIC_SPI_VSPI",
-                                "range": null,
-                                "title": "VSPI",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "component-config-lmic-spi-host-interface",
-                        "name": "LMIC_SPI",
-                        "title": "SPI Host interface",
-                        "type": "choice"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "LMIC_DEBUG_LEVEL",
-                        "name": "LMIC_DEBUG_LEVEL",
-                        "range": null,
-                        "title": "LMIC debug level",
-                        "type": "int"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "Enable code required for OTA activation",
-                                "id": "LMIC_FEATURE_JOIN",
-                                "name": "LMIC_FEATURE_JOIN",
-                                "range": null,
-                                "title": "Join",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "Enable code required for pinging",
-                                "id": "LMIC_FEATURE_PING",
-                                "name": "LMIC_FEATURE_PING",
-                                "range": null,
-                                "title": "Ping",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "Enable code required for beacon tracking",
-                                "id": "LMIC_FEATURE_BEACONS",
-                                "name": "LMIC_FEATURE_BEACONS",
-                                "range": null,
-                                "title": "Beacons",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "id": "component-config-lmic-features",
-                        "title": "Features",
-                        "type": "menu"
-                    }
-                ],
-                "depends_on": null,
-                "id": "component-config-lmic",
-                "title": "LMIC",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
                                 "children": [
                                     {
                                         "children": [],
@@ -28523,6 +28377,324 @@
                 "depends_on": null,
                 "id": "component-config-toolbox-setup",
                 "title": "TOOLBOX SETUP",
+                "type": "menu"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_DISABLED",
+                                "name": "TTN_LORA_FREQ_DISABLED",
+                                "range": null,
+                                "title": "LoRa Disabled",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_EU_868",
+                                "name": "TTN_LORA_FREQ_EU_868",
+                                "range": null,
+                                "title": "Europe (868 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_US_915",
+                                "name": "TTN_LORA_FREQ_US_915",
+                                "range": null,
+                                "title": "North and South America (915 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_AU_915",
+                                "name": "TTN_LORA_FREQ_AU_915",
+                                "range": null,
+                                "title": "Australia (915 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_AS_923",
+                                "name": "TTN_LORA_FREQ_AS_923",
+                                "range": null,
+                                "title": "Asia (923 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_AS_923_JP",
+                                "name": "TTN_LORA_FREQ_AS_923_JP",
+                                "range": null,
+                                "title": "Asia, region Japan (923 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_KR_920",
+                                "name": "TTN_LORA_FREQ_KR_920",
+                                "range": null,
+                                "title": "South Korea (920 MHz)",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_LORA_FREQ>",
+                                "help": null,
+                                "id": "TTN_LORA_FREQ_IN_866",
+                                "name": "TTN_LORA_FREQ_IN_866",
+                                "range": null,
+                                "title": "India (866 MHz)",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": null,
+                        "help": "LoRa frequency must match the geographic region the device is operated in.\nRunning it with the incorrect frequency most likely violates the law.",
+                        "id": "component-config-the-things-network-ttn-lora-frequency-region",
+                        "name": "TTN_LORA_FREQ",
+                        "title": "TTN LoRa frequency / region",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_RADIO_CHIP>",
+                                "help": null,
+                                "id": "TTN_RADIO_SX1272_73",
+                                "name": "TTN_RADIO_SX1272_73",
+                                "range": null,
+                                "title": "Semtech SX1272 / SX1273",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_RADIO_CHIP>",
+                                "help": null,
+                                "id": "TTN_RADIO_SX1276_77_78_79",
+                                "name": "TTN_RADIO_SX1276_77_78_79",
+                                "range": null,
+                                "title": "Semtech SX1276 / SX1277 / SX1278 / SX1279",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": null,
+                        "help": "The chip type used for LoRa radio.\nMost boards use the SX1276 .. SX1279 chips. This includes ttgo LoRa and HopeRF RFM95 boards.\nEarlier boards might use the SX1272 / 73 chips, e.g. the HopeRF RFM92.",
+                        "id": "component-config-the-things-network-ttn-radio-chip",
+                        "name": "TTN_RADIO_CHIP",
+                        "title": "TTN radio chip",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "SPI frequency to communicate between ESP32 and SX127x radio chip",
+                        "id": "TTN_SPI_FREQ",
+                        "name": "TTN_SPI_FREQ",
+                        "range": null,
+                        "title": "SPI frequency (in Hz)",
+                        "type": "int"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_RESET>",
+                                "help": null,
+                                "id": "TTN_RESET_STATES_FLOATING",
+                                "name": "TTN_RESET_STATES_FLOATING",
+                                "range": null,
+                                "title": "Toggle between low and floating",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_RESET>",
+                                "help": null,
+                                "id": "TTN_RESET_STATES_ASSERTED",
+                                "name": "TTN_RESET_STATES_ASSERTED",
+                                "range": null,
+                                "title": "Toggle between low and high",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": null,
+                        "help": "Reset pin can be floating for most boards and shields.\nA few boards/shields require the pin to be held high for operation.",
+                        "id": "component-config-the-things-network-reset-states",
+                        "name": "TTN_RESET",
+                        "title": "Reset states",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": "Priority of task running in the background and communicating with\nthe LoRaWAN radio chip. It needs a high priority as the timing is crucial.\nHigher numbers indicate higher priority.",
+                        "id": "TTN_BG_TASK_PRIO",
+                        "name": "TTN_BG_TASK_PRIO",
+                        "range": null,
+                        "title": "Background task priority",
+                        "type": "int"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_DEFAULT",
+                                "name": "TTN_PROVISION_UART_DEFAULT",
+                                "range": null,
+                                "title": "Enabled - default settings: UART0, TX=GPIO1, RX=GPIO3, 115,200 baud",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_CUSTOM",
+                                "name": "TTN_PROVISION_UART_CUSTOM",
+                                "range": null,
+                                "title": "Enabled - custom UART settings",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_NONE",
+                                "name": "TTN_PROVISION_UART_NONE",
+                                "range": null,
+                                "title": "Disabled",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": null,
+                        "help": "Select whether to listen on UART for AT commands.\n\n- Default is to use UART0 on pins GPIO1(TX) and GPIO3(RX).\n- If \"Custom\" is selected, UART0 or UART1 can be chosen,\n  and any pins can be selected.\n- If \"None\" is selected, AT commands are not available.",
+                        "id": "component-config-the-things-network-at-commands",
+                        "name": "TTN_PROVISION_UART",
+                        "title": "AT commands",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART_NUM>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_CUSTOM_NUM_0",
+                                "name": "TTN_PROVISION_UART_CUSTOM_NUM_0",
+                                "range": null,
+                                "title": "UART0",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART_NUM>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_CUSTOM_NUM_1",
+                                "name": "TTN_PROVISION_UART_CUSTOM_NUM_1",
+                                "range": null,
+                                "title": "UART1",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "TTN_PROVISION_UART_CUSTOM",
+                        "help": null,
+                        "id": "component-config-the-things-network-uart-peripheral-for-provisioning-0-1-",
+                        "name": "TTN_PROVISION_UART_NUM",
+                        "title": "UART peripheral for provisioning (0-1)",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART_CONFIG>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_CONFIG_NO",
+                                "name": "TTN_PROVISION_UART_CONFIG_NO",
+                                "range": null,
+                                "title": "No",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice TTN_PROVISION_UART_CONFIG>",
+                                "help": null,
+                                "id": "TTN_PROVISION_UART_CONFIG_YES",
+                                "name": "TTN_PROVISION_UART_CONFIG_YES",
+                                "range": null,
+                                "title": "Yes",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "TTN_PROVISION_UART_CUSTOM",
+                        "help": "Select whether to configure the UART, i.e. set the baud rate, the RX and TX\npins. If the UART is shared with other features (e.g. the console), it\nshould not be configured.",
+                        "id": "component-config-the-things-network-configure-uart-settings",
+                        "name": "TTN_PROVISION_UART_CONFIG",
+                        "title": "Configure UART settings",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": null,
+                        "help": null,
+                        "id": "TTN_PROVISION_UART_NUM",
+                        "name": "TTN_PROVISION_UART_NUM",
+                        "range": null,
+                        "title": null,
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "TTN_PROVISION_UART_CONFIG_YES",
+                        "help": null,
+                        "id": "TTN_PROVISION_UART_TX_GPIO",
+                        "name": "TTN_PROVISION_UART_TX_GPIO",
+                        "range": null,
+                        "title": "Provisioning UART TX on GPIO#",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "TTN_PROVISION_UART_CONFIG_YES",
+                        "help": null,
+                        "id": "TTN_PROVISION_UART_RX_GPIO",
+                        "name": "TTN_PROVISION_UART_RX_GPIO",
+                        "range": null,
+                        "title": "Provisioning UART RX on GPIO#",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "TTN_PROVISION_UART_CONFIG_YES",
+                        "help": null,
+                        "id": "TTN_PROVISION_UART_BAUDRATE",
+                        "name": "TTN_PROVISION_UART_BAUDRATE",
+                        "range": null,
+                        "title": "Provisioning UART baud rate",
+                        "type": "int"
+                    }
+                ],
+                "depends_on": null,
+                "id": "component-config-the-things-network",
+                "title": "The Things Network",
                 "type": "menu"
             }
         ],
