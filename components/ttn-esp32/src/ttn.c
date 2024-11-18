@@ -517,7 +517,7 @@ void event_callback(void *user_data, ev_t event)
         {
             ttn_event = TTN_EVNT_JOIN_COMPLETED;
         }
-        else if (event == EV_REJOIN_FAILED || event == EV_RESET)
+        else if (event == EV_REJOIN_FAILED || event == EV_RESET || event == EV_JOIN_TXCOMPLETE)
         {
             ttn_event = TTN_EVENT_JOIN_FAILED;
         }
