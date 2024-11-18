@@ -395,6 +395,11 @@ void dht20_read_task(void *param)
 
     ESP_LOGI(tag, "Entering measerument loop");
 
+    
+    // Limpiar la pantalla antes de escribir nuevo contenido
+    xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
+    vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
+
     while (1)
     {
         if (dht20_is_calibrated())
@@ -418,8 +423,8 @@ void dht20_read_task(void *param)
         snprintf(humid_str, sizeof(humid_str), "Hum: %.1f%%", measurements.humidity);
 
         // Limpiar la pantalla antes de escribir nuevo contenido
-        xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
-        vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
+        // xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
+        // vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
 
         // Mostrar la temperatura en la pantalla OLED
         xTaskCreate(task_ssd1306_display_text, "ssd1306_display_text", 2048, (void *)temp_str, 6, NULL);
