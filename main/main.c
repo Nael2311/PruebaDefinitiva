@@ -1,4 +1,7 @@
 
+// V2 PRUEBA REALIZADA EN UMA, SEUNA A AL ANTENA DE TTN Y TRANSMITE BIEN, HACE UNA TRANSMISION CADA 30 SEGUNDOS
+// FUNCIONA PERFECTAMENTE
+
 // V1 PRUEBA REALIZADA EN CASA NUEVA ANDALUCIA, FUNCIONA CORRECTAMENTE,
 // HACE FALTA HACER PRUEBAS CERCA DE ANTENA LORA
 // ENVIO DE DATOS DE LA ULTIMA MEDICIONA ANTEN DE INIT_JOIN()
@@ -214,8 +217,11 @@ esp_err_t sgp30_write_command(uint16_t command);
 esp_err_t sgp30_read_data(uint16_t *co2_eq, uint16_t *tvoc);
 void dht20_read_task(void *param);
 
+#define MAX_PAYLOAD_SIZE 51 // Tamaño máximo permitido por LoRaWAN para el payload
+
 // Variables de estado global
 bool is_initialized = false;
+int len;
 
 void setup_ttn(); // Prototipo de la función
 
@@ -224,10 +230,10 @@ void sendMessages(void* pvParameter)
 {
     while (1) {
         printf("Sending message...\n");
-        ttn_response_code_t res = ttn_transmit_message(mydata, sizeof(mydata) - 1, 1, false);
+        ttn_response_code_t res = ttn_transmit_message(mydata, len, 1, false);
         printf(res == TTN_SUCCESSFUL_TRANSMISSION ? "Message sent.\n" : "Transmission failed.\n");
 
-        vTaskDelay(TX_INTERVAL * pdMS_TO_TICKS(1000));
+        vTaskDelay(TX_INTERVAL * pdMS_TO_TICKS(1000)); // Como TX_INTERVAL es 30, esto espera 30 segundos
     }
 }
 
@@ -394,7 +400,6 @@ void dht20_read_task(void *param)
     uint16_t co2_eq, tvoc;
 
     ESP_LOGI(tag, "Entering measerument loop");
-
     
     // Limpiar la pantalla antes de escribir nuevo contenido
     xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
@@ -411,9 +416,11 @@ void dht20_read_task(void *param)
             ESP_LOGI(tag, "is NOT calibrated....");
         }
         
+        // Lectura de valores de co2 y TVOC
         ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
         ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
 
+        // Lectrura de valores de humedad y temperatura
         (void)dht20_read_data(&measurements);
         ESP_LOGI(tag, "Temperature:\t%.1fC.\t Avg: %.1fC", measurements.temperature, measurements.temp_avg);
         ESP_LOGI(tag, "Humidity:   \t%.1f%%.\t Avg: %.1f%%\n", measurements.humidity, measurements.humid_avg);
@@ -436,6 +443,7 @@ void dht20_read_task(void *param)
 
         ESP_LOGI(TAGSPG30, "CO2eq: %d ppm, TVOC: %d ppb", co2_eq, tvoc);
 
+        // Convertir los valores de co2 y TVOC a cadenas
         snprintf(co2_str, sizeof(co2_str), "CO2eq: %d ppm", co2_eq);
         snprintf(tvoc_str, sizeof(tvoc_str), "TVOC: %d ppb", tvoc);
 
@@ -447,12 +455,14 @@ void dht20_read_task(void *param)
         xTaskCreate(task_ssd1306_display_text, "display_tvoc", 2048, (void *)tvoc_str, 5, NULL);
 
         // Preparar el payload para enviar datos por loRaWAN
-        snprintf((char *)mydata, sizeof(mydata), "T:%.1f H:%.1f CO2:%d TVOC:%d", 
+        len = snprintf((char *)mydata, sizeof(mydata), "T:%.1f H:%.1f CO2:%d TVOC:%d", 
                  measurements.temperature, measurements.humidity, co2_eq, tvoc);
 
+        contUnMinutoEnvioTTN++;
+        ESP_LOGI("DEPURACION", "CONTADOR = %d", contUnMinutoEnvioTTN);
 
         // Envio de datos a TTN la primera vez y despues cada 60 segundos
-        if(/*contUnMinutoEnvioTTN == 0 ||*/ contUnMinutoEnvioTTN == 5)
+        if(/*contUnMinutoEnvioTTN == 0 ||*/ contUnMinutoEnvioTTN == 30)
         {
             setup_ttn();
 
@@ -467,11 +477,9 @@ void dht20_read_task(void *param)
                 printf("Join failed.\n");
             }
 
-            contUnMinutoEnvioTTN = 0;
+            //contUnMinutoEnvioTTN = 0;
+            //len = 0;
         }
-
-        contUnMinutoEnvioTTN++;
-        ESP_LOGI("DEPURACION", "CONTADOR = %d", contUnMinutoEnvioTTN);
 
         vTaskDelay(pdMS_TO_TICKS(2000)); // Esperar 2 segundos antes de la próxima lectura
     }

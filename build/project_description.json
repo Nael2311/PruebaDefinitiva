@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "PruebaDefinitiva",
-    "project_version":    "4185665-dirty",
+    "project_version":    "1c0a9f7-dirty",
     "project_path":       "C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva",
     "idf_path":           "C:/Esp32IDF/Espressif/frameworks/esp-idf-v5.3.1",
     "build_dir":          "C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build",
