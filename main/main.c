@@ -1,4 +1,13 @@
 
+// V4 PRUEBA REALIZADA DURANTE VARIAS HORA, FUNCIONA CORRECTAMENTE, SIN BAJO DE CONSUMO Y CON INTENTO DE CONEXION TTN CONSTANTE (SOLUCIONAR)
+
+// V3 PRUEBA REALIZADA EN CASA CON 3 SEGUNDOS PARA TTN Y 2 PARA MEDICION DE DATOS
+// HA FUNCIONADO PERFECTAMENTE, PRUEBA REALIZADA HASTA LAS 93 MEDICIONES
+
+// *** IMPORTANTE **
+// EL ERROR DE DEL TIMOUT DE WATCH DOG CPU 0 SE SOLUCIONA PONIENDO 100 EN LUGAR DE 10 EN LA SIGUEINES LINEAS
+// i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100)); EN LA FUNCION DE task_ssd1306_display_text
+
 // V2 PRUEBA REALIZADA EN UMA, SEUNA A AL ANTENA DE TTN Y TRANSMITE BIEN, HACE UNA TRANSMISION CADA 30 SEGUNDOS
 // FUNCIONA PERFECTAMENTE
 
@@ -6,156 +15,8 @@
 // HACE FALTA HACER PRUEBAS CERCA DE ANTENA LORA
 // ENVIO DE DATOS DE LA ULTIMA MEDICIONA ANTEN DE INIT_JOIN()
 // ANTES DE HACER EL INIT_JOIN CON TTN HACE 6 MEDICIONES, ES DECIR EL CONTADOR ESTA A 5
-// ESTE SE VEN EN EL TERMINAL:
-/*
-I (341) main_task: Started on CPU0
-I (351) main_task: Calling app_main()
-I (351) _i2c_init: Initializing I2C Bus.......
-I (351) _i2c_init: I2C Bus Initialized, ESP_OK
-I (661) OLED: OLED configured successfully
-I (15761) dht20_read_task: Entering measerument loop
-I (15761) LoRa: Tareas inicializadas
-I (15761) main_task: Returned from app_main()
-I (15861) dht20_read_task: is calibrated....
-I (16041) dht20_read_task: Temperature: 22.8C.   Avg: 2.3C
-I (16041) dht20_read_task: Humidity:    73.6%.   Avg: 7.4%
-
-I (16161) SGP30: CO2eq: 400 ppm, TVOC: 0 ppb
-I (16171) DEPURACION: CONTADOR = 1
-I (18271) dht20_read_task: is calibrated....
-I (18451) dht20_read_task: Temperature: 22.8C.   Avg: 4.6C
-I (18451) dht20_read_task: Humidity:    73.6%.   Avg: 14.7%
-
-I (18571) SGP30: CO2eq: 400 ppm, TVOC: 0 ppb
-I (18581) DEPURACION: CONTADOR = 2
-I (20681) dht20_read_task: is calibrated....
-I (20861) dht20_read_task: Temperature: 22.8C.   Avg: 6.8C
-I (20861) dht20_read_task: Humidity:    73.6%.   Avg: 22.1%
-
-I (20981) SGP30: CO2eq: 408 ppm, TVOC: 5 ppb
-I (20991) DEPURACION: CONTADOR = 3
-I (23091) dht20_read_task: is calibrated....
-I (23271) dht20_read_task: Temperature: 22.8C.   Avg: 9.1C
-I (23271) dht20_read_task: Humidity:    73.6%.   Avg: 29.4%
-
-I (23391) SGP30: CO2eq: 409 ppm, TVOC: 10 ppb
-I (23401) DEPURACION: CONTADOR = 4
-I (25501) dht20_read_task: is calibrated....
-I (25681) dht20_read_task: Temperature: 22.8C.   Avg: 11.4C
-I (25681) dht20_read_task: Humidity:    73.6%.   Avg: 36.8%
-
-I (25801) SGP30: CO2eq: 407 ppm, TVOC: 17 ppb
-I (25811) DEPURACION: CONTADOR = 5
-I (27911) dht20_read_task: is calibrated....
-I (28091) dht20_read_task: Temperature: 22.8C.   Avg: 13.7C
-I (28091) dht20_read_task: Humidity:    73.5%.   Avg: 44.1%
-
-I (28211) SGP30: CO2eq: 403 ppm, TVOC: 17 ppb
-I (28231) ttn_prov: DevEUI, AppEUI/JoinEUI and AppKey saved in NVS storage
-Joining...
-I (28241) gpio: GPIO[5]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 
-I (28241) gpio: GPIO[16]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 
-I (28251) gpio: GPIO[2]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 
-I (28261) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 
-I (28271) ttn_hal: IO initialized
-I (28271) ttn_hal: SPI initialized
-I (28281) ttn_hal: Timer initialized
-I (28321) ttn: event EV_JOINING
-I (35501) ttn: event EV_TXSTART
-I (40531) ttn: event EV_RXSTART
-I (41531) ttn: event EV_RXSTART
-I (41801) ttn: event EV_JOIN_TXCOMPLETE
-Join failed.
-I (41801) DEPURACION: CONTADOR = 1
-I (43901) dht20_read_task: is calibrated....
-I (44081) dht20_read_task: Temperature: 22.8C.   Avg: 16.0C
-I (44081) dht20_read_task: Humidity:    73.4%.   Avg: 51.5%
-
-I (44201) SGP30: CO2eq: 411 ppm, TVOC: 19 ppb
-I (44211) DEPURACION: CONTADOR = 2
-I (46311) dht20_read_task: is calibrated....
-I (46491) dht20_read_task: Temperature: 22.8C.   Avg: 18.2C
-I (46491) dht20_read_task: Humidity:    73.2%.   Avg: 58.8%
-
-I (46611) SGP30: CO2eq: 400 ppm, TVOC: 17 ppb
-I (46621) DEPURACION: CONTADOR = 3
-I (48721) dht20_read_task: is calibrated....
-I (48901) dht20_read_task: Temperature: 22.8C.   Avg: 20.5C
-I (48901) dht20_read_task: Humidity:    73.2%.   Avg: 66.1%
-
-I (49021) SGP30: CO2eq: 435 ppm, TVOC: 20 ppb
-I (49031) DEPURACION: CONTADOR = 4
-I (51131) dht20_read_task: is calibrated....
-I (51311) dht20_read_task: Temperature: 22.8C.   Avg: 22.8C
-I (51311) dht20_read_task: Humidity:    73.2%.   Avg: 73.4%
-
-I (51431) SGP30: CO2eq: 401 ppm, TVOC: 17 ppb
-I (51441) DEPURACION: CONTADOR = 5
-I (53541) dht20_read_task: is calibrated....
-I (53721) dht20_read_task: Temperature: 22.8C.   Avg: 22.8C
-I (53721) dht20_read_task: Humidity:    73.1%.   Avg: 73.4%
-
-I (53841) SGP30: CO2eq: 403 ppm, TVOC: 16 ppb
-Joining...
-I (53851) ttn: event EV_JOINING
-I (59511) ttn: event EV_TXSTART
-I (64551) ttn: event EV_RXSTART
-I (65541) ttn: event EV_RXSTART
-I (65811) ttn: event EV_JOIN_TXCOMPLETE
-Join failed.
-I (65821) DEPURACION: CONTADOR = 1
-I (67921) dht20_read_task: is calibrated....
-I (68101) dht20_read_task: Temperature: 22.9C.   Avg: 22.8C
-I (68101) dht20_read_task: Humidity:    73.0%.   Avg: 73.3%
-
-I (68221) SGP30: CO2eq: 408 ppm, TVOC: 25 ppb
-I (68231) DEPURACION: CONTADOR = 2
-I (70331) dht20_read_task: is calibrated....
-I (70511) dht20_read_task: Temperature: 22.9C.   Avg: 22.8C
-I (70511) dht20_read_task: Humidity:    73.0%.   Avg: 73.3%
-
-I (70631) SGP30: CO2eq: 417 ppm, TVOC: 27 ppb
-I (70641) DEPURACION: CONTADOR = 3
-I (72741) dht20_read_task: is calibrated....
-I (72921) dht20_read_task: Temperature: 22.9C.   Avg: 22.8C
-I (72921) dht20_read_task: Humidity:    73.0%.   Avg: 73.2%
-
-I (73041) SGP30: CO2eq: 411 ppm, TVOC: 23 ppb
-I (73051) DEPURACION: CONTADOR = 4
-I (75151) dht20_read_task: is calibrated....
-I (75331) dht20_read_task: Temperature: 22.9C.   Avg: 22.8C
-I (75331) dht20_read_task: Humidity:    72.9%.   Avg: 73.2%
-
-I (75451) SGP30: CO2eq: 403 ppm, TVOC: 27 ppb
-I (75461) DEPURACION: CONTADOR = 5
-I (77561) dht20_read_task: is calibrated....
-I (77741) dht20_read_task: Temperature: 22.9C.   Avg: 22.8C
-I (77741) dht20_read_task: Humidity:    72.9%.   Avg: 73.1%
-
-I (77861) SGP30: CO2eq: 410 ppm, TVOC: 30 ppb
-Joining...
-I (77871) ttn: event EV_JOINING
-I (84111) ttn: event EV_TXSTART
-I (89151) ttn: event EV_RXSTART
-I (90141) ttn: event EV_RXSTART
-I (90421) ttn: event EV_JOIN_TXCOMPLETE
-Join failed.
-I (90421) DEPURACION: CONTADOR = 1
-I (92521) dht20_read_task: is calibrated....
-I (92701) dht20_read_task: Temperature: 22.9C.   Avg: 22.9C
-I (92701) dht20_read_task: Humidity:    72.8%.   Avg: 73.0%
-
-I (92821) SGP30: CO2eq: 410 ppm, TVOC: 40 ppb
-I (92831) DEPURACION: CONTADOR = 2
-I (94931) dht20_read_task: is calibrated....
-I (95111) dht20_read_task: Temperature: 22.9C.   Avg: 22.9C
-I (95111) dht20_read_task: Humidity:    72.8%.   Avg: 73.0%
-
-I (95231) SGP30: CO2eq: 427 ppm, TVOC: 43 ppb
-*/
 
 // Se ha construido correctamente el dia 14/11/2024 a las 16:58
-
 
 #include <stdio.h>
 #include <stdint.h>
@@ -172,30 +33,41 @@ I (95231) SGP30: CO2eq: 427 ppm, TVOC: 43 ppb
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "ttn.h"
-#include "esp_timer.h" // Para medir el tiempo
+#include "esp_timer.h"    // Para medir el tiempo
+#include "esp_task_wdt.h" // Watch dog
+#include "esp_wifi.h"
 
 // AppEUI, DevEUI y AppKey
 const char *appEui = "0000000000000000";
 const char *devEui = "70B3D57ED006B4C5";
 const char *appKey = "528ED36701C123C3954535625253BFF2";
 
+// Tamaño máximo permitido por LoRaWAN para el payload
+#define MAX_PAYLOAD_SIZE 51
+
 // Pines y configuración de recursos
-#define TTN_SPI_HOST      SPI2_HOST
-#define TTN_SPI_DMA_CHAN  SPI_DMA_DISABLED
-#define TTN_PIN_SPI_SCLK  18
-#define TTN_PIN_SPI_MOSI  23
-#define TTN_PIN_SPI_MISO  19
-#define TTN_PIN_NSS       5
-#define TTN_PIN_RXTX      TTN_NOT_CONNECTED
-#define TTN_PIN_RST       16
-#define TTN_PIN_DIO0      2
-#define TTN_PIN_DIO1      15
-#define TX_INTERVAL 30
+#define TTN_SPI_HOST SPI2_HOST
+#define TTN_SPI_DMA_CHAN SPI_DMA_DISABLED
+#define TTN_PIN_SPI_SCLK 18
+#define TTN_PIN_SPI_MOSI 23
+#define TTN_PIN_SPI_MISO 19
+#define TTN_PIN_NSS 5
+#define TTN_PIN_RXTX TTN_NOT_CONNECTED
+#define TTN_PIN_RST 16
+#define TTN_PIN_DIO0 2
+#define TTN_PIN_DIO1 15
+#define Segundos_intento_conexion_TTN 3600
+#define Segundos_mediciones_niveles_tipicos 60
+#define Segundos_mediciones_niveles_moderados 20
+#define Segundos_mediciones_niveles_perjudiciales 10
+
+// Para monitorear tareas, activar en el menuconfig FREERTOS_USE_TRACE_FACILITY
+#define MAX_TASKS 20 // Ajusta según el número de tareas esperadas
 
 // SPG30
-#define SGP30_ADDR 0x58  // Dirección I2C del SGP30
+#define SGP30_ADDR 0x58       // Dirección I2C del SGP30
 #define OLED_I2C_ADDRESS 0x3C // Direccion I2C del ssd1306
-#define ACK_CHECK_EN 0x1 // Habilitar ACK
+#define ACK_CHECK_EN 0x1      // Habilitar ACK
 
 // Definición de la pantalla OLED, ajusta estas constantes según tu configuración
 #define SSD1306_MAX_PAGES 4 // Número de páginas en la pantalla (ajustar si es necesario)
@@ -207,38 +79,27 @@ const char *appKey = "528ED36701C123C3954535625253BFF2";
 #define SCL_PIN GPIO_NUM_22
 
 static uint8_t mydata[64];
-static uint8_t contUnMinutoEnvioTTN = 0;
+int contNumMediciones = 0;
 static const char *TAGSPG30 = "SGP30";
 static const char *tag = "dht20_read_task";
 uint8_t cur_page = 0;
 TaskHandle_t read_data_h;
+TaskHandle_t conexion_ttn_h;
 
+// Prototipo de la función
 esp_err_t sgp30_write_command(uint16_t command);
 esp_err_t sgp30_read_data(uint16_t *co2_eq, uint16_t *tvoc);
 void dht20_read_task(void *param);
-
-#define MAX_PAYLOAD_SIZE 51 // Tamaño máximo permitido por LoRaWAN para el payload
+void setup_ttn();
 
 // Variables de estado global
 bool is_initialized = false;
 int len;
-
-void setup_ttn(); // Prototipo de la función
-
-// Tarea de envío de mensajes
-void sendMessages(void* pvParameter)
-{
-    while (1) {
-        printf("Sending message...\n");
-        ttn_response_code_t res = ttn_transmit_message(mydata, len, 1, false);
-        printf(res == TTN_SUCCESSFUL_TRANSMISSION ? "Message sent.\n" : "Transmission failed.\n");
-
-        vTaskDelay(TX_INTERVAL * pdMS_TO_TICKS(1000)); // Como TX_INTERVAL es 30, esto espera 30 segundos
-    }
-}
+bool conexion_ttn = true;
+char ttn_estado_conexion[17] = "TTN desconectado";
 
 // Manejo de recepción de mensajes
-void messageReceived(const uint8_t* message, size_t length, ttn_port_t port)
+void messageReceived(const uint8_t *message, size_t length, ttn_port_t port)
 {
     printf("Message of %d bytes received on port %d:", length, port);
     for (int i = 0; i < length; i++)
@@ -324,9 +185,6 @@ void task_ssd1306_display_clear(void *ignore)
         i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100));
         i2c_cmd_link_delete(cmd);
     }
-
-    // Borrar la tarea una vez completada
-    vTaskDelete(NULL);
 }
 
 // Mostrar texto en OLED
@@ -353,7 +211,7 @@ void task_ssd1306_display_text(void *arg_text)
     i2c_master_write_byte(cmd, 0xB0 | cur_page, true); // reset page
 
     i2c_master_stop(cmd);
-    i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(10));
+    i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100)); // IMPORTANTE QUE SE 100 MINIMO
     i2c_cmd_link_delete(cmd);
 
     for (uint8_t i = 0; i < text_len; i++)
@@ -370,7 +228,7 @@ void task_ssd1306_display_text(void *arg_text)
             i2c_master_write_byte(cmd, 0xB0 | ++cur_page, true); // increment page
 
             i2c_master_stop(cmd);
-            i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(10));
+            i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100)); // IMPORTANTE QUE SE 100 MINIMO
             i2c_cmd_link_delete(cmd);
         }
         else
@@ -383,27 +241,28 @@ void task_ssd1306_display_text(void *arg_text)
             i2c_master_write(cmd, font8x8_basic_tr[(uint8_t)text[i]], 8, true);
 
             i2c_master_stop(cmd);
-            i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(10));
+            i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100)); // IMPORTANTE QUE SE 100 MINIMO
             i2c_cmd_link_delete(cmd);
         }
     }
 
     cur_page++;
-    vTaskDelete(NULL);
 }
 
-// Tarea de lectura de datos DHT20 y SGP30
+// Tarea de lectura de datos DHT20 y SGP30 y escrtura en oled
 void dht20_read_task(void *param)
 {
     dht20_data_t measurements;
-    char temp_str[20], humid_str[20], co2_str[20], tvoc_str[20];
     uint16_t co2_eq, tvoc;
+    char temp_hum_str[17], co2_str[17], tvoc_str[17];
 
-    ESP_LOGI(tag, "Entering measerument loop");
-    
+    ESP_LOGI(tag, "Entrando en bucle de medición");
+
     // Limpiar la pantalla antes de escribir nuevo contenido
-    xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
-    vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
+    task_ssd1306_display_clear(NULL);
+
+    // Se vuelve a poner la pagina de la pantalla a 0
+    cur_page = 0;
 
     while (1)
     {
@@ -415,73 +274,63 @@ void dht20_read_task(void *param)
         {
             ESP_LOGI(tag, "is NOT calibrated....");
         }
-        
-        // Lectura de valores de co2 y TVOC
-        ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
-        ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
 
         // Lectrura de valores de humedad y temperatura
         (void)dht20_read_data(&measurements);
-        ESP_LOGI(tag, "Temperature:\t%.1fC.\t Avg: %.1fC", measurements.temperature, measurements.temp_avg);
-        ESP_LOGI(tag, "Humidity:   \t%.1f%%.\t Avg: %.1f%%\n", measurements.humidity, measurements.humid_avg);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Espera antes de realizar otra medicion para no saturar el bus i2c
 
-        // Convertir los valores de temperatura y humedad a cadenas
-        snprintf(temp_str, sizeof(temp_str), "Temp: %.1fC", measurements.temperature);
-        snprintf(humid_str, sizeof(humid_str), "Hum: %.1f%%", measurements.humidity);
+        // Lectura de valores de CO2 y TVOC
+        ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
+        ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
+        vTaskDelay(pdMS_TO_TICKS(100)); // Espera antes de realizar otra medicion para no saturar el bus i2c
 
-        // Limpiar la pantalla antes de escribir nuevo contenido
-        // xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
-        // vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
-
-        // Mostrar la temperatura en la pantalla OLED
-        xTaskCreate(task_ssd1306_display_text, "ssd1306_display_text", 2048, (void *)temp_str, 6, NULL);
-        vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de escribir la siguiente línea
-
-        // Mostrar la humedad en la pantalla OLED
-        xTaskCreate(task_ssd1306_display_text, "ssd1306_display_text", 2048, (void *)humid_str, 6, NULL);
-        vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de seguir
-
-        ESP_LOGI(TAGSPG30, "CO2eq: %d ppm, TVOC: %d ppb", co2_eq, tvoc);
+        // Convertir los valores de temperatura y humedad en una sola línea
+        snprintf(temp_hum_str, sizeof(temp_hum_str), "T:%.1fC H:%.1f%%", measurements.temperature, measurements.humidity);
 
         // Convertir los valores de co2 y TVOC a cadenas
         snprintf(co2_str, sizeof(co2_str), "CO2eq: %d ppm", co2_eq);
         snprintf(tvoc_str, sizeof(tvoc_str), "TVOC: %d ppb", tvoc);
 
-        // Mostrar CO2eq en la tercera página
-        xTaskCreate(task_ssd1306_display_text, "display_co2", 2048, (void *)co2_str, 5, NULL);
+        // Mostrar los datos en el terminal
+        ESP_LOGI(tag, "Temperature:\t%.1fC.\t Avg: %.1fC", measurements.temperature, measurements.temp_avg);
+        ESP_LOGI(tag, "Humidity:   \t%.1f%%.\t Avg: %.1f%%", measurements.humidity, measurements.humid_avg);
+        ESP_LOGI(TAGSPG30, "CO2eq: %d ppm, TVOC: %d ppb\n", co2_eq, tvoc);
+
+        // Mostrar la temperatura y la humedad en la pantalla OLED
+        task_ssd1306_display_text((void *)temp_hum_str);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Esperar un poco antes de escribir la siguiente línea
+
+        // Mostrar CO2eq en la pantalla OLED
+        task_ssd1306_display_text((void *)co2_str);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Esperar un poco antes de escribir la siguiente línea
+
+        // Mostrar TVOC en la pantalla OLED
+        task_ssd1306_display_text((void *)tvoc_str);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Esperar un poco antes de escribir la siguiente línea
+
+        // Mostrar ttn desconectado en pantalla OLED
+        task_ssd1306_display_text((void *)ttn_estado_conexion);
         vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de escribir la siguiente línea
 
-        // Mostrar TVOC en la cuarta página
-        xTaskCreate(task_ssd1306_display_text, "display_tvoc", 2048, (void *)tvoc_str, 5, NULL);
-
         // Preparar el payload para enviar datos por loRaWAN
-        len = snprintf((char *)mydata, sizeof(mydata), "T:%.1f H:%.1f CO2:%d TVOC:%d", 
-                 measurements.temperature, measurements.humidity, co2_eq, tvoc);
+        len = snprintf((char *)mydata, sizeof(mydata), "T:%.1f H:%.1f CO2:%d TVOC:%d",
+                       measurements.temperature, measurements.humidity, co2_eq, tvoc);
 
-        contUnMinutoEnvioTTN++;
-        ESP_LOGI("DEPURACION", "CONTADOR = %d", contUnMinutoEnvioTTN);
+        contNumMediciones++;
+        ESP_LOGI("NUMERO DE MEDICIONES", "%d\n", contNumMediciones);
 
-        // Envio de datos a TTN la primera vez y despues cada 60 segundos
-        if(/*contUnMinutoEnvioTTN == 0 ||*/ contUnMinutoEnvioTTN == 30)
+        if (co2_eq > 2000 || tvoc > 1000)
         {
-            setup_ttn();
-
-            printf("Joining...\n");
-            if (ttn_join())
-            {
-                printf("Joined.\n");
-                xTaskCreate(sendMessages, "send_messages", 1024 * 4, (void* )0, 3, NULL);
-            }
-            else
-            {
-                printf("Join failed.\n");
-            }
-
-            //contUnMinutoEnvioTTN = 0;
-            //len = 0;
+            vTaskDelay(Segundos_mediciones_niveles_perjudiciales * pdMS_TO_TICKS(1000)); // Esperar 10 segundos antes de la próxima lectura
         }
-
-        vTaskDelay(pdMS_TO_TICKS(2000)); // Esperar 2 segundos antes de la próxima lectura
+        else if (co2_eq > 1000 || tvoc > 500)
+        {
+            vTaskDelay(Segundos_mediciones_niveles_moderados * pdMS_TO_TICKS(1000)); // Esperar 20 segundos antes de la próxima lectura
+        }
+        else
+        {
+            vTaskDelay(Segundos_mediciones_niveles_tipicos * pdMS_TO_TICKS(1000)); // Esperar 60 segundos antes de la próxima lectura
+        }
     }
 }
 
@@ -521,38 +370,38 @@ esp_err_t sgp30_read_data(uint16_t *co2_eq, uint16_t *tvoc)
     return ret;
 }
 
-void initialize_peripherals() {
-    dht20_begin(); // Inicializar DHT20
-    i2c_oled_init(); // Inicializar pantalla OLED
+// Inicializar sensores y pantalla
+void initialize_peripherals()
+{
+    dht20_begin();                                // Inicializar DHT20
+    i2c_oled_init();                              // Inicializar pantalla OLED
     ESP_ERROR_CHECK(sgp30_write_command(0x2003)); // Comando Init_air_quality
 }
 
-void display_initial_message() {
+// Escribir mensaje inicial
+void display_initial_message()
+{
     // Mensaje inicial
     const char *init_message = "    POR FAVOR\n\n     ESPERE";
 
-    //task_ssd1306_display_clear(NULL);  // Llama directamente si solo necesitas limpiar una vez
-    //vTaskDelay(pdMS_TO_TICKS(100)); // Espera a que se limpie la pantalla
-    //task_ssd1306_display_text((void *)init_message); // Muestra mensaje sin necesidad de una tarea extra
-
     // Limpiar la pantalla antes de escribir nuevo contenido
-    xTaskCreate(task_ssd1306_display_clear, "ssd1306_display_clear", 2048, NULL, 6, NULL);
-    vTaskDelay(pdMS_TO_TICKS(100)); // Esperar a que se limpie la pantalla
+    task_ssd1306_display_clear(NULL);
 
-    // Crea la tarea para mostrar el mensaje en la pantalla OLED
-    xTaskCreate(task_ssd1306_display_text, "ssd1306_display_text", 2048, (void *)init_message, 6, NULL);
+    // Mostrar el mensaje en la pantalla OLED
+    task_ssd1306_display_text((void *)init_message);
 }
 
+// Inicializar gpio, spi, ttn, configurar sx1276
 void setup_ttn()
 {
     esp_err_t err;
 
-    if (!is_initialized) 
+    if (!is_initialized)
     {
         // Initialize the GPIO ISR handler service
         err = gpio_install_isr_service(ESP_INTR_FLAG_IRAM);
         ESP_ERROR_CHECK(err);
-        
+
         // Initialize the NVS (non-volatile storage) for saving and restoring the keys
         err = nvs_flash_init();
         ESP_ERROR_CHECK(err);
@@ -563,8 +412,7 @@ void setup_ttn()
             .mosi_io_num = TTN_PIN_SPI_MOSI,
             .sclk_io_num = TTN_PIN_SPI_SCLK,
             .quadwp_io_num = -1,
-            .quadhd_io_num = -1
-        }; 
+            .quadhd_io_num = -1};
         err = spi_bus_initialize(TTN_SPI_HOST, &spi_bus_config, TTN_SPI_DMA_CHAN);
         ESP_ERROR_CHECK(err);
 
@@ -578,19 +426,103 @@ void setup_ttn()
         ttn_provision(devEui, appEui, appKey);
 
         is_initialized = true;
-
     }
 
     // Register callback for received messages
     ttn_on_message(messageReceived);
+}
 
-    // ttn_set_adr_enabled(false);
-    // ttn_set_data_rate(TTN_DR_US915_SF7);
-    // ttn_set_max_tx_pow(14);
+// Funcion para la conexion con ttn
+void Conexion_TTN(void *parametro)
+{
+    ESP_LOGI("Info TTN", "En %d minutos se intentara conectarse a la red TTN", Segundos_intento_conexion_TTN/60);
+
+    while (1)
+    {
+        vTaskDelay(Segundos_intento_conexion_TTN * pdMS_TO_TICKS(1000));
+
+        setup_ttn();
+
+        ESP_LOGI("Info TTN", "Joining...");
+        if (ttn_join())
+        {
+            ESP_LOGI("Info TTN", " Joined.");
+
+            int fail_count = 0; // Contador de intentos fallidos
+            int cont_sent = 0;
+
+            while (1)
+            {
+                ESP_LOGI("Info TTN", " Sending message...");
+
+                ttn_response_code_t res = ttn_transmit_message(mydata, len, 1, false);
+
+                if (res == TTN_SUCCESSFUL_TRANSMISSION)
+                {
+                    ESP_LOGI("Info TTN", "Message sent.");
+                    strcpy(ttn_estado_conexion, "TTN conectado");
+                    fail_count = 0; // Reinicia el contador si la transmisión tiene éxito
+                    cont_sent++;
+                    if (cont_sent >= 5) // Despues de enviar 5 mensajes salir para hacer el joining otra vez
+                    {
+                        ESP_LOGI("Info TTN", "Se han enviado 5 mensajes o mas.\n");
+                        break;
+                    }
+                }
+                else
+                {
+                    ESP_LOGI("Info TTN", "Transmission failed.");
+                    fail_count++; // Incrementa el contador de fallos
+
+                    if (fail_count >= 2) // Si hay 2 intentos fallidos consecutivos
+                    {
+                        ESP_LOGI("Info TTN", "Exiting task after 2 failed attempts.");
+                        break; // Sal del bucle while
+                    }
+                }
+
+                // printf(res == TTN_SUCCESSFUL_TRANSMISSION ? "Message sent.\n" : "Transmission failed.\n");
+
+                vTaskDelay(Segundos_intento_conexion_TTN * pdMS_TO_TICKS(1000)); // cada Segundos_intento_conexion_TTN se vuelve a enviar mensaje
+            }
+        }
+        else
+        {
+            ESP_LOGI("Info TTN", "Join failed.");
+            ESP_LOGI("Info TTN", "En %d minutos se volvera a intentara conectarse a la red TTN", Segundos_intento_conexion_TTN/60);
+            strcpy(ttn_estado_conexion, "TTN desconectado");
+        }
+    }
+}
+
+// Funcion para monitorear la tareas activadas, activar en el menuconfig FREERTOS_USE_TRACE_FACILITY
+void listar_tareas()
+{
+    TaskStatus_t task_status_array[MAX_TASKS];
+    uint32_t total_run_time;
+    UBaseType_t num_tasks;
+
+    // Obtiene el estado de todas las tareas
+    num_tasks = uxTaskGetSystemState(task_status_array, MAX_TASKS, &total_run_time);
+
+    ESP_LOGI("TASK_LIST", "Tareas activas: %d", num_tasks);
+    for (int i = 0; i < num_tasks; i++)
+    {
+        ESP_LOGI("TASK_LIST",
+                 "Tarea: %s, Estado: %d, Prioridad: %d, Stack libre: %lu",
+                 task_status_array[i].pcTaskName,
+                 task_status_array[i].eCurrentState,
+                 task_status_array[i].uxCurrentPriority,
+                 (unsigned long)task_status_array[i].usStackHighWaterMark);
+    }
 }
 
 void app_main(void)
 {
+    // Deshabilitar Wi-Fi
+    esp_wifi_stop();
+    esp_wifi_deinit();
+
     // Inicializar periféricos
     initialize_peripherals();
 
@@ -598,15 +530,27 @@ void app_main(void)
     display_initial_message();
 
     // Espera inicial antes de iniciar tareas de sensores
-    vTaskDelay(pdMS_TO_TICKS(15000)); 
+    vTaskDelay(pdMS_TO_TICKS(15000));
 
-    // Se vuelve a poner la pagina de la pantalla a 0
-    cur_page = 0;
-    contUnMinutoEnvioTTN = 0;
+    // Verifica si hay alguna tarea en ejecucion, y elimínala si es necesario:
+    if (read_data_h != NULL)
+    {
+        vTaskDelete(read_data_h);
+        read_data_h = NULL;
+    }
+    if (conexion_ttn_h != NULL)
+    {
+        vTaskDelete(conexion_ttn_h);
+        conexion_ttn_h = NULL;
+    }
 
     // Crear tareas para lectura de sensores y transmisión LoRa
-    xTaskCreate(dht20_read_task, "read_values", 256 * 11, NULL, 3, &read_data_h); 
-    //xTaskCreate(&lmic_task, "lmic_task", 2048, NULL, 5, NULL); // Tarea LMIC
+    xTaskCreate(dht20_read_task, "read_values", 4096, NULL, 3, &read_data_h);
+    xTaskCreate(Conexion_TTN, "ttn_task", 10240, NULL, 4, &conexion_ttn_h); // Tarea conexion ttn
 
-    ESP_LOGI("LoRa", "Tareas inicializadas");
+    // while (1)
+    // {
+    //     vTaskDelay(pdMS_TO_TICKS(120000)); // Actualiza cada 5 segundos
+    //     listar_tareas();                 // Llama a la función para listar tareas
+    // }
 }

@@ -2,7 +2,7 @@
 -- Building ESP-IDF components for target esp32
 -- Project sdkconfig file C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/sdkconfig
 -- Compiler supported targets: xtensa-esp-elf
--- App "PruebaDefinitiva" version: b01d352-dirty
+-- App "PruebaDefinitiva" version: 37ce767-dirty
 -- Adding linker script C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/esp_system/ld/memory.ld
 -- Adding linker script C:/Users/nael_/Desktop/TFG/ESP-IDF-Pruebas/PruebaDefinitiva/build/esp-idf/esp_system/ld/sections.ld.in
 -- Adding linker script C:/Esp32IDF/Espressif/frameworks/esp-idf-v5.3.1/components/esp_rom/esp32/ld/esp32.rom.ld
