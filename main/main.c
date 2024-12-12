@@ -20,6 +20,9 @@
 
 // Se ha construido correctamente el dia 14/11/2024 a las 16:58
 
+// IMPORTENTE. PARA VISUALIZAR LA INFORMACION EN VARIOS DEISPOSITIVOS FINALES EN TTN SOLO EL DEVEUI TIENE QUE SER EL MISMO QUE EST:
+// devEui = "70B3D57ED006B4C5"
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
