@@ -26,18 +26,18 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "dht20.h"
+#include "dht20.h" // Libreria sensor temperatura y humedad
 #include "driver/gpio.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "sdkconfig.h" 
-#include "ssd1306.h"
-#include "font8x8_basic.h"
+#include "sdkconfig.h"
+#include "ssd1306.h" // Libreria pantalla OLED
+#include "font8x8_basic.h" // Libreria para pantalla OLED
 #include "esp_event.h"
 #include "nvs_flash.h"
-#include "ttn.h"
+#include "ttn.h" // Libreria para conexion con TTN 
 #include "esp_timer.h"    // Para medir el tiempo
 #include "esp_task_wdt.h" // Watch dog
 #include "esp_wifi.h"
@@ -271,6 +271,20 @@ void dht20_read_task(void *param)
     uint16_t co2_eq, tvoc;
     char temp_hum_str[17], co2_str[17], tvoc_str[17];
 
+    // Este bucle es para inicializar el SGP30
+    if (contNumMediciones == -1)
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            // Lectura de valores de CO2 y TVOC
+            ESP_ERROR_CHECK(sgp30_write_command(0x2008)); // Comando Measure_air_quality
+            ESP_ERROR_CHECK(sgp30_read_data(&co2_eq, &tvoc));
+            vTaskDelay(pdMS_TO_TICKS(1000)); // Espera antes de realizar otra medicion para no saturar el bus i2c
+        }
+
+        ESP_LOGI(tag, "SGP30 Calibrado");
+    }
+
     ESP_LOGI(tag, "Entrando en bucle de medición");
 
     // Limpiar la pantalla antes de escribir nuevo contenido
@@ -285,11 +299,11 @@ void dht20_read_task(void *param)
 
         if (dht20_is_calibrated())
         {
-            ESP_LOGI(tag, "is calibrated....");
+            ESP_LOGI(tag, "DHT20 Calibrado");
         }
         else
         {
-            ESP_LOGI(tag, "is NOT calibrated....");
+            ESP_LOGI(tag, "DHT20 No calibrado");
         }
 
         // Lectrura de valores de humedad y temperatura
@@ -338,7 +352,7 @@ void dht20_read_task(void *param)
 
         if (contNumMediciones == 0 || contNumMediciones % Numero_mediciones_siguiente_conexion == 0)
         {
-             xTaskCreate(Conexion_TTN_bajo_consumo, "ttn_task_bajo_consumo", 10240, NULL, 4, &conexion_ttn_bajo_consumo_h); // Tarea conexion ttn
+            xTaskCreate(Conexion_TTN_bajo_consumo, "ttn_task_bajo_consumo", 10240, NULL, 4, &conexion_ttn_bajo_consumo_h); // Tarea conexion ttn
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -346,7 +360,7 @@ void dht20_read_task(void *param)
         if (co2_eq > 2000 || tvoc > 1000)
         {
             estado_tarea_medicion = false;
-            if(estado_tarea_conexionTTN == false)
+            if (estado_tarea_conexionTTN == false)
             {
                 sleep_manager(Segundos_mediciones_niveles_perjudiciales);
             }
@@ -358,7 +372,7 @@ void dht20_read_task(void *param)
         else if (co2_eq > 1000 || tvoc > 500)
         {
             estado_tarea_medicion = false;
-            if(estado_tarea_conexionTTN == false)
+            if (estado_tarea_conexionTTN == false)
             {
                 sleep_manager(Segundos_mediciones_niveles_moderados);
             }
@@ -370,13 +384,13 @@ void dht20_read_task(void *param)
         else
         {
             estado_tarea_medicion = false;
-            if(estado_tarea_conexionTTN == false)
+            if (estado_tarea_conexionTTN == false)
             {
                 sleep_manager(Segundos_mediciones_niveles_tipicos);
             }
             else
             {
-                vTaskDelay(Segundos_mediciones_niveles_tipicos * pdMS_TO_TICKS(1000)); // Esperar 30 segundos antes de la próxima lectura
+                vTaskDelay(Segundos_mediciones_niveles_tipicos * pdMS_TO_TICKS(1000)); // Esperar 60 segundos antes de la próxima lectura
             }
         }
     }
@@ -575,9 +589,9 @@ void Conexion_TTN_bajo_consumo(void *parametro)
             if (res == TTN_SUCCESSFUL_TRANSMISSION)
             {
                 ESP_LOGI("Info TTN", "Mensaje enviado");
-                fail_count = 0; // Reinicia el contador si la transmisión tiene éxito
-                cont_sent++;
-                if (cont_sent >= Numero_mensajes_enviados_probar_conexion) // Despues de enviar 5 mensajes reniciar el sistema para probar la conexion
+
+                // Despues de enviar X mensajes reniciar el sistema para probar la conexion
+                if (cont_sent >= Numero_mensajes_enviados_probar_conexion)
                 {
                     ESP_LOGI("Info TTN", "En unos segundos se reiniciara el sistema para volver a probar la conexion\n");
 
@@ -587,9 +601,12 @@ void Conexion_TTN_bajo_consumo(void *parametro)
                         vTaskDelay(pdMS_TO_TICKS(100));
                     }
 
-                    vTaskDelay(pdMS_TO_TICKS(1000));
+                    vTaskDelay(pdMS_TO_TICKS(1000)); // Una pequeña espera de un segundo antes de resetear el sistema
                     esp_restart();
                 }
+
+                fail_count = 0; // Reinicia el contador si la transmisión tiene éxito
+                cont_sent++;
             }
             else
             {
@@ -599,8 +616,17 @@ void Conexion_TTN_bajo_consumo(void *parametro)
                 if (fail_count >= 2) // Si hay 2 intentos fallidos consecutivos
                 {
                     ESP_LOGI("Info TTN", "Dos intentos de envio de mensaje fallidos");
-                    fail_count = 0;
-                    break; // Sal del bucle while
+
+                    ESP_LOGI("Info TTN", "En unos segundos se reiniciara el sistema para volver a probar la conexion\n");
+
+                    // Con este bucle aseguro que la tarea de medicion no este midiendo
+                    while (estado_tarea_medicion)
+                    {
+                        vTaskDelay(pdMS_TO_TICKS(100));
+                    }
+
+                    vTaskDelay(pdMS_TO_TICKS(1000)); // Una pequeña espera de un segundo antes de resetear el sistema
+                    esp_restart();
                 }
             }
 
@@ -608,7 +634,7 @@ void Conexion_TTN_bajo_consumo(void *parametro)
             ESP_LOGI("Info TTN", "Despues de la siguiente medicion se intentara enviar otro mensaje\n");
 
             // Hasta que no haya como minimo otra medicion no se enviara otro mensaje
-            while(ultimo_valor == contNumMediciones)
+            while (ultimo_valor == contNumMediciones)
             {
                 vTaskDelay(pdMS_TO_TICKS(100));
             }
@@ -650,7 +676,7 @@ void listar_tareas()
 void sleep_manager(int segundos)
 {
     // Ambas tareas están inactivas. El sistema puede entrar en modo de suspensión.
-    ESP_LOGI("Info Bajo Consumo", "Ambas tareas están inactivas. El sistema entrara en modo de suspensión.\n");
+    ESP_LOGI("Info Bajo Consumo", "Ambas tareas están inactivas. El sistema entrara en modo de suspension.\n");
 
     // Configurar el temporizador RTC para despertar después de WAKEUP_TIME_SEC
     esp_sleep_enable_timer_wakeup(segundos * 1000000); // Convertir a microsegundos
@@ -658,10 +684,10 @@ void sleep_manager(int segundos)
     // Configurar el modo de suspensión ligera
     vTaskDelay(pdMS_TO_TICKS(100));
     esp_light_sleep_start(); // Entra en suspensión ligera, no reinicia el sistema
-    //esp_deep_sleep_start(); // Si se utiliza el deep, al salirde este se hace como un reset del sistema entero
+    // esp_deep_sleep_start(); // Si se utiliza el deep, al salirde este se hace como un reset del sistema entero
 
     // Mensaje al despertar del modo de suspensión
-    ESP_LOGI("Info Bajo Consumo", "El sistema ha salido del modo de suspensión.\n");
+    ESP_LOGI("Info Bajo Consumo", "El sistema ha salido del modo de suspension.\n");
 }
 
 void app_main(void)
