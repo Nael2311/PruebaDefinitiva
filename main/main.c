@@ -1,27 +1,6 @@
 
-// V5 PRUEBA REALIZADA EN COCHE FUERA Y DENTRO DEL RADIO DE COVERTURA DE LA ANTENA, FUNCIONA PERFECTAMENTE.
-
-// V4 PRUEBA REALIZADA DURANTE VARIAS HORA EN CASA, FUNCIONA CORRECTAMENTE, SIN BAJO DE CONSUMO Y CON INTENTO DE CONEXION TTN CONSTANTE (SOLUCIONAR)
-
-// V3 PRUEBA REALIZADA EN CASA CON 3 SEGUNDOS PARA TTN Y 2 PARA MEDICION DE DATOS
-// HA FUNCIONADO PERFECTAMENTE, PRUEBA REALIZADA HASTA LAS 93 MEDICIONES
-
-// *** IMPORTANTE **
-// EL ERROR DE DEL TIMOUT DE WATCH DOG CPU 0 SE SOLUCIONA PONIENDO 100 EN LUGAR DE 10 EN LA SIGUEINES LINEAS
-// i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(100)); EN LA FUNCION DE task_ssd1306_display_text
-
-// V2 PRUEBA REALIZADA EN UMA, SEUNA A AL ANTENA DE TTN Y TRANSMITE BIEN, HACE UNA TRANSMISION CADA 30 SEGUNDOS
-// FUNCIONA PERFECTAMENTE
-
-// V1 PRUEBA REALIZADA EN CASA NUEVA ANDALUCIA, FUNCIONA CORRECTAMENTE,
-// HACE FALTA HACER PRUEBAS CERCA DE ANTENA LORA
-// ENVIO DE DATOS DE LA ULTIMA MEDICIONA ANTEN DE INIT_JOIN()
-// ANTES DE HACER EL INIT_JOIN CON TTN HACE 6 MEDICIONES, ES DECIR EL CONTADOR ESTA A 5
-
-// Se ha construido correctamente el dia 14/11/2024 a las 16:58
-
-// IMPORTENTE. PARA VISUALIZAR LA INFORMACION EN VARIOS DEISPOSITIVOS FINALES EN TTN SOLO EL DEVEUI TIENE QUE SER EL MISMO QUE EST:
-// devEui = "70B3D57ED006B4C5"
+// NAEL GEROGES CHEHADE 
+// TFG UMA Sistema de Monitorización de la Calidad del Aire 2024/2025. 
 
 #include <stdio.h>
 #include <stdint.h>
@@ -112,6 +91,11 @@ char ttn_estado_conexion[17] = "TTN desconectado";
 bool estado_tarea_medicion = true;
 bool estado_tarea_conexionTTN = false;
 int ultimo_valor = -1;
+
+// static int start_ticks = 0;
+// static int end_ticks = 0;
+// static int active_time_ticks = 0;
+// float active_time_seconds = 0;
 
 // Manejo de recepción de mensajes
 void messageReceived(const uint8_t *message, size_t length, ttn_port_t port)
@@ -285,6 +269,8 @@ void dht20_read_task(void *param)
         ESP_LOGI(tag, "SGP30 Calibrado");
     }
 
+    // start_ticks = xTaskGetTickCount();
+
     ESP_LOGI(tag, "Entrando en bucle de medición");
 
     // Limpiar la pantalla antes de escribir nuevo contenido
@@ -356,6 +342,12 @@ void dht20_read_task(void *param)
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));
+
+        // end_ticks = xTaskGetTickCount();
+
+        // active_time_ticks = end_ticks - start_ticks;
+        // active_time_seconds = (float)active_time_ticks / configTICK_RATE_HZ;
+        // ESP_LOGI("Tiempo activo", "%f\n", active_time_seconds);
 
         if (co2_eq > 2000 || tvoc > 1000)
         {
