@@ -1,6 +1,7 @@
 
-// NAEL GEROGES CHEHADE 
-// TFG UMA Sistema de Monitorización de la Calidad del Aire 2024/2025. 
+// NAEL GEOROGES CHEHADE 
+// TFG UMA 2024/2025
+// Sistema de Monitorización de la Calidad del Aire
 
 #include <stdio.h>
 #include <stdint.h>
