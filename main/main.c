@@ -1,5 +1,5 @@
 
-// NAEL GEOROGES CHEHADE 
+// NAEL GEORGES CHEHADE 
 // TFG UMA 2024/2025
 // Sistema de Monitorización de la Calidad del Aire
 
