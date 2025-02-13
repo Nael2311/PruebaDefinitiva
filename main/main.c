@@ -571,7 +571,13 @@ void Conexion_TTN_bajo_consumo(void *parametro)
     if (ttn_join())
     {
         ESP_LOGI("Info TTN", "Conexion establecida");
-        strcpy(ttn_estado_conexion, "TTN conectado");
+        strcpy(ttn_estado_conexion, "TTN conectado   ");
+
+        cur_page = 3; // Para cambiar solo la linea del estado del ttn
+        
+        // Mostrar ttn conectado en pantalla OLED
+        task_ssd1306_display_text((void *)ttn_estado_conexion);
+        vTaskDelay(pdMS_TO_TICKS(10)); // Esperar un poco antes de escribir la siguiente línea
 
         while (1)
         {
